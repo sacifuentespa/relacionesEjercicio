@@ -59,14 +59,26 @@ const moviesController = {
         .catch(error=>console.log(error))        
     },
     create: function (req,res) {
+        Movies.create({
+            title: req.body.title,
+            rating: req.body.rating,
+            awards: req.body.awards,
+            release_date: req.body.release_date,
+            length: req.body.length,
+            genre_id: req.body.genre_id
+        })
+        .then(result=>{
+            res.redirect('/movies');
+        })
+        .catch(error=>console.log(error));   
 
     },
     edit: function(req,res) {
         Movies.findByPk(req.params.id,{
             include: [{association: 'genres'}]
         })
-        .then(resultado=>{
-            res.render('moviesEdit',{Movie: resultado})
+        .then(result=>{
+            res.render('moviesEdit',{Movie: result})
         })
         .catch(error=>console.log(error));
     },
