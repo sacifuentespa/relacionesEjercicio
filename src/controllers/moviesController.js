@@ -58,7 +58,7 @@ const moviesController = {
         .then(genres=>{
             res.render('moviesAdd',{allGenres: genres})
         })
-        .catch(error=>console.log(error))        
+        .catch(err=>console.error(err))        
     },
     create: function (req,res) {
         Movies.create({
@@ -70,9 +70,9 @@ const moviesController = {
             genre_id: req.body.genre_id
         })
         .then(result=>{
-            res.redirect('/movies');
+            res.redirect('/movies')
         })
-        .catch(error=>console.log(error));   
+        .catch(err=>console.error(err))
 
     },
     edit: function(req,res) {
@@ -86,15 +86,45 @@ const moviesController = {
                 console.log(movie)
             res.render('moviesEdit',{Movie: movie, allGenres: genres})
         })
-        .catch(error=>console.log(error));
+        .catch(err=>console.err(err))
     },
     update: function (req,res) {
+        Movies.update({
+            title: req.body.title,
+            rating: req.body.rating,
+            awards: req.body.awards,
+            release_date: req.body.release_date,
+            length: req.body.length,
+            genre_id: req.body.genre_id
+        },{
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(result=>{
+            res.redirect('/movies')
+        })
+        .catch(err=>console.error(err))
 
     },
     delete: function (req,res) {
+        Movies.findByPk(req.params.id)
+        .then(result=>{
+            res.render('moviesDelete',{Movie: result})
+        })
+        .catch(err=>console.error(err))
 
     },
     destroy: function (req,res) {
+        Movies.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(resultado=>{
+            res.redirect('/movies')
+        })
+        .catch(err=>console.error(err))
 
     }
 }
