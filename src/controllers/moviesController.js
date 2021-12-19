@@ -2,6 +2,7 @@ const path = require('path');
 const db = require('../database/models');
 const sequelize = db.sequelize;
 const { Op } = require("sequelize");
+const GenreModel = require(path.resolve(__dirname, '../models/GenreModel'))
 
 
 //Aqui tienen una forma de llamar a cada uno de los modelos
@@ -52,7 +53,8 @@ const moviesController = {
     },
     //Aqui dispongo las rutas para trabajar con el CRUD
     add: function (req, res) {
-        Genres.findAll()
+        let genres = GenreModel.getAll()
+        return genres
         .then(genres=>{
             res.render('moviesAdd',{allGenres: genres})
         })
@@ -78,7 +80,11 @@ const moviesController = {
             include: [{association: 'genres'}]
         })
         .then(result=>{
-            res.render('moviesEdit',{Movie: result})
+            movie = result
+            return GenreModel.getAll()}).then(genres =>{
+                console.log(genres)
+                console.log(movie)
+            res.render('moviesEdit',{Movie: movie, allGenres: genres})
         })
         .catch(error=>console.log(error));
     },
