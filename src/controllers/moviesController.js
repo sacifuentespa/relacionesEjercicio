@@ -121,10 +121,10 @@ const moviesController = {
                 id: req.params.id
             }
         })
-        .then(resultado=>{
+        .then(result=>{
             res.redirect('/movies')
         })
-        .catch(err=>console.error(err))
+        .catch(err=>console.error(err), res.redirect('/movies'))
 
     }
 }
