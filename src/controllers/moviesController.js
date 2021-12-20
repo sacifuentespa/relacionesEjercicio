@@ -69,7 +69,7 @@ const moviesController = {
             length: req.body.length,
             genre_id: req.body.genre_id
         })
-        .then(result=>{
+        .then(()=>{
             res.redirect('/movies')
         })
         .catch(err=>console.error(err))
@@ -100,7 +100,7 @@ const moviesController = {
                 id: req.params.id
             }
         })
-        .then(result=>{
+        .then(()=>{
             res.redirect('/movies')
         })
         .catch(err=>console.error(err))
@@ -120,7 +120,7 @@ const moviesController = {
                 id: req.params.id
             }
         })
-        .then(result=>{
+        .then(()=>{
             res.redirect('/movies')
         })
         .catch(err=>console.error(err), res.redirect('/movies'))
