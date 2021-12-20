@@ -76,17 +76,16 @@ const moviesController = {
 
     },
     edit: function(req,res) {
-        Movies.findByPk(req.params.id,{
+
+        let movie = Movies.findByPk(req.params.id,{
             include: [{association: 'genres'}]
         })
-        .then(result=>{
-            movie = result
-            return GenreModel.getAll()}).then(genres =>{
-                console.log(genres)
-                console.log(movie)
+
+        let genres = GenreModel.getAll()
+
+        Promise.all([movie, genres]).then(function([movie, genres]){
             res.render('moviesEdit',{Movie: movie, allGenres: genres})
         })
-        .catch(err=>console.err(err))
     },
     update: function (req,res) {
         Movies.update({
